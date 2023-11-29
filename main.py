@@ -87,12 +87,11 @@ class MainApp(QMainWindow):
         self.info_table.setModel(modelo)
 
     def process_image(self):
-        # Enter your API Key
+        # Ingresa API Key
         endpoint_id = "3c422a48-b6de-4170-b2a7-8ab9368d435c"
         api_key = "land_sk_bqkwlrXNHYqAWGtJ7axFuixyOjthXf6sKCOL5bPqIgfLoqsSll"
-        # Abre una imagen existente
 
-        # Load your image
+        # Carga Imagen
         image = Image.open(self.ruta_imagen_actual)
         self.car_count = 0
         self.moto_count = 0
@@ -100,9 +99,10 @@ class MainApp(QMainWindow):
         self.bus_count = 0
         self.van_count = 0
 
-        # Run inference
+        # Run
         predictor = Predictor(endpoint_id, api_key=api_key)
         predictions = predictor.predict(image)
+
         for prediction in predictions:
             print(prediction)
             if(prediction.label_name == "car"):
@@ -115,9 +115,10 @@ class MainApp(QMainWindow):
                 self.bus_count += 1
             else: 
                 self.van_count += 1
+
         self.llenar_tabla()
-        color_dict = {"car": "red", "truck":"blue", "motorcycle":"green", "bus":"pink", "van":"cyan"}
-        # Draw raw results on the original image
+        
+        # Dibuja los resultados en la imagen original
         frame_with_preds = overlay_predictions(predictions, image=image)
 
         frame_with_preds.save("tmp/image_with_result.jpg")
